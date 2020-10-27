@@ -4,9 +4,10 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 // Components
-import UserCard from '../components/User/UserCard';
-import CreateDailyIntakeLog from '../components/DailyIntakeLog/CreateDailyIntakeLog';
-import DailyIntakeLog from '../components/DailyIntakeLog/DailyIntakeLog';
+import UserCard from '../components/UserCard/UserCard';
+import DailyGraph from '../components/DailyGraph/DailyGraph';
+import RoutineLog from '../components/RoutineLog/RoutineLog';
+
 const useStyles = makeStyles((theme) => ({
   homePage: {
     marginTop: theme.spacing(5),
@@ -21,10 +22,10 @@ const Home = () => {
           <UserCard />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <CreateDailyIntakeLog />
+          <DailyGraph />
         </Grid>
         <Grid item xs={12}>
-          <DailyIntakeLog />
+          <RoutineLog />
         </Grid>
       </Grid>
     </Container>

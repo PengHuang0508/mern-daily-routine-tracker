@@ -1,3 +1,7 @@
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const escapeHtml = (text) => {
   const map = {
     '&': '&amp;',
@@ -12,4 +16,4 @@ const escapeHtml = (text) => {
   });
 };
 
-module.exports = { escapeHtml };
+module.exports = { capitalizeFirstLetter, escapeHtml };

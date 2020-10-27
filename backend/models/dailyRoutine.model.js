@@ -30,8 +30,8 @@ const dailyRoutineSchema = new Schema(
       },
     },
     date: {
-      type: Date,
-      default: Date.now,
+      // YYYY-MM-DD
+      type: String,
       required: true,
     },
   },

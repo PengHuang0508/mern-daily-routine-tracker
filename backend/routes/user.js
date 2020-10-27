@@ -1,16 +1,15 @@
 const router = require('express').Router();
 let User = require('../models/user.model');
 
-//TODO: delete later
 router.route('/all').get((req, res) => {
   User.find()
     .then((users) => res.json(users))
-    .catch((err) => res.status(400).json('Error: ' + err));
+    .catch((err) => res.status(400).json({ error: err }));
 });
 
 router.route('/register').post((req, res) => {
   if (!req.body.username) {
-    return res.status(400).json('Username cannot be empty.');
+    return res.status(400).json({ error: 'Username cannot be empty.' });
   }
 
   let newUser = new User({
@@ -20,18 +19,18 @@ router.route('/register').post((req, res) => {
   newUser
     .save()
     .then((userInformation) => res.json(userInformation))
-    .catch((err) => {
-      if (err.code === 11000) {
-        return res.status(400).json('The username already exists.');
+    .catch((error) => {
+      if (error.code === 11000) {
+        return res.status(400).json({ error: 'The username already exists.' });
       }
 
-      return res.status(400).json('Error: ' + err);
+      return res.status(400).json({ error });
     });
 });
 
 router.route('/signIn').post((req, res) => {
   if (!req.body.username) {
-    return res.status(400).json('Username cannot be empty.');
+    return res.status(400).json({ error: 'Username cannot be empty.' });
   }
 
   User.findOne({ username: req.body.username })
@@ -40,9 +39,9 @@ router.route('/signIn').post((req, res) => {
         return res.json(user);
       }
 
-      return res.status(400).json('User not found.');
+      return res.status(400).json({ error: 'User not found.' });
     })
-    .catch((err) => res.status(400).json('Error: ' + err));
+    .catch((error) => res.status(400).json({ error }));
 });
 
 module.exports = router;

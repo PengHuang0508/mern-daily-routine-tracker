@@ -1,16 +1,18 @@
 const router = require('express').Router();
 let DailyRoutine = require('../models/dailyRoutine.model');
+// Validator
+const { validateRoutineLog } = require('../utils/validators');
 
 router.route('/').get((req, res) => {
   DailyRoutine.find()
     .then((dailyRoutineLog) => res.json(dailyRoutineLog))
-    .catch((err) => res.status(400).json('Error:' + err));
+    .catch((error) => res.status(400).json({ error }));
 });
 
 router.route('/:username').get((req, res) => {
-  DailyRoutine.find({ username: req.params.username })
+  DailyRoutine.find({ username: req.params.username.toLowerCase() })
     .then((dailyRoutineLog) => res.json(dailyRoutineLog))
-    .catch((err) => res.status(400).json('Error:' + err));
+    .catch((error) => res.status(400).json({ error }));
 });
 
 router.route('/add').post((req, res) => {
@@ -22,18 +24,34 @@ router.route('/add').post((req, res) => {
     sleep: Number(req.body.routine.sleep),
     work: Number(req.body.routine.work),
   };
-  const date = Date.parse(req.body.date);
-
-  const newDailyRoutineLog = new DailyRoutine({
+  const date = req.body.date;
+  const routineLog = {
     username,
     routine,
     date,
-  });
+  };
+  const { valid, error } = validateRoutineLog(routineLog);
 
-  newDailyRoutineLog
-    .save()
-    .then(() => res.json({ message: 'New daily routine log saved.' }))
-    .catch((err) => res.status(400).json('Error:' + err));
+  if (!valid) {
+    return res.status(400).json({ error });
+  }
+
+  const newDailyRoutineLog = new DailyRoutine(routineLog);
+
+  DailyRoutine.find({ date })
+    .then((data) => {
+      if (data.length) {
+        return res
+          .status(400)
+          .json({ error: 'Log for this date already exists.' });
+      }
+
+      newDailyRoutineLog
+        .save()
+        .then(() => res.json({ message: 'New daily routine log saved.' }))
+        .catch((error) => res.status(400).json({ error }));
+    })
+    .catch((error) => res.status(400).json({ error }));
 });
 
 router.route('/update/:id').post((req, res) => {
@@ -52,16 +70,16 @@ router.route('/update/:id').post((req, res) => {
       dailyRoutineLog
         .save()
         .then(() => res.json({ message: 'Log updated.' }))
-        .catch((err) => res.status(400).json('Error:' + err));
+        .catch((error) => res.status(400).json({ error }));
     })
 
-    .catch((err) => res.status(400).json('Error:' + err));
+    .catch((error) => res.status(400).json({ error }));
 });
 
 router.route('/:id').delete((req, res) => {
   DailyRoutine.findByIdAndDelete(req.params.id)
     .then((dailyRoutineLog) => res.json({ message: 'Log deleted.' }))
-    .catch((err) => res.status(400).json('Error:' + err));
+    .catch((error) => res.status(400).json({ error }));
 });
 
 module.exports = router;

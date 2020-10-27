@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { register, signIn } from '../../redux/actions/userActions';
-// Hooks
-import { useInputs } from '../../hooks/useInputs';
+import { register, signIn, signOut } from '../../redux/actions/userActions';
 // MUI
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
@@ -18,16 +16,19 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 // Helpers
-import { escapeHtml } from '../../utils/helpers';
+import { capitalizeFirstLetter, escapeHtml } from '../../utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
   accountContainer: {
-    height: '100%',
     textAlign: 'center',
-    backgroundColor: '#f1f1f1',
   },
   accountTitle: {
+    display: 'inline-block',
     paddingTop: theme.spacing(2),
+
+    '& span': {
+      fontWeight: 'bold',
+    },
   },
   accountInput: {
     width: '90%',
@@ -51,17 +52,17 @@ const Account = () => {
 
   const [usernameInput, setUsernameInput] = useState('');
 
-  const handleRegister = () => {
-    // prevent xss injection
-    const encodedUsername = escapeHtml(usernameInput);
+  // prevent xss injection
+  let encodedUsername = escapeHtml(usernameInput);
 
+  const handleRegister = () => {
     dispatch(register(encodedUsername));
+
+    setUsernameInput('');
   };
   const handleSignIn = () => {
-    // prevent xss injection
-    const encodedUsername = escapeHtml(usernameInput);
-
     dispatch(signIn(encodedUsername));
+    setUsernameInput('');
   };
 
   const UnauthenticatedContent = () => (
@@ -76,7 +77,7 @@ const Account = () => {
         label='Username'
         value={usernameInput}
         onChange={(e) => setUsernameInput(e.target.value)}
-        error={errors ? true : false}
+        error={errors.account ? true : false}
         helperText={errors.account}
         variant='outlined'
         fullWidth
@@ -94,15 +95,24 @@ const Account = () => {
     </React.Fragment>
   );
 
+  const AuthenticatedContent = () => (
+    <Box display='flex' alignItems='baseline' justifyContent='space-around'>
+      <Typography className={classes.accountTitle} component='h2' variant='h5'>
+        Welcome back <span>{capitalizeFirstLetter(username)}</span>
+      </Typography>
+      <Button
+        onClick={() => dispatch(signOut())}
+        variant='contained'
+        color='primary'
+      >
+        Logout
+      </Button>
+    </Box>
+  );
+
   return (
     <div className={classes.accountContainer}>
-      {authenticated ? (
-        <Typography className={classes.accountTitle} variant='h4' gutterBottom>
-          Welcome back {username}
-        </Typography>
-      ) : (
-        <UnauthenticatedContent />
-      )}
+      {authenticated ? <AuthenticatedContent /> : <UnauthenticatedContent />}
     </div>
   );
 };
