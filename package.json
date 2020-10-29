@@ -1,6 +1,9 @@
 {
   "name": "daily-routine-tracker",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "engines": {
+    "node": "12.x"
+  },
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -9,18 +12,23 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "material-table": "^1.69.1",
+    "mongoose": "^5.10.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
+    "react-scripts": "^4.0.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node backend/server.js",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
+    "dev": "react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,7 +45,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "react-scripts": "^3.4.3"
-  }
+  "proxy": "http://localhost:5000"
 }

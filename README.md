@@ -1,4 +1,4 @@
-A simple MERN app.
+A simple MERN app to track the hours spent on basic daily routines.
 
 ### Usage
 

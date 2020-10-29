@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const mongoose = require('mongoose');
 // routes
 const userRouter = require('./routes/user');
@@ -27,8 +28,14 @@ connection.once('open', () => {
   console.info('MongoDB database connection established successfully.');
 });
 
+// APIs
 app.use('/user', userRouter);
 app.use('/daily-routine', dailyRoutineRouter);
+
+app.use(express.static(path.join(__dirname, '../build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build'));
+});
 
 app.listen(port, () => {
   console.info(`Server is running on port: ${port}`);

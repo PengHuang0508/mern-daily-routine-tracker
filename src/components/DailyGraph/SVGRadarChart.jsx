@@ -1,15 +1,23 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+// Hooks
+import { useWindowSize } from '../../hooks/useWindowSize';
 // Utils
 import { capitalizeFirstLetter } from '../../utils/helpers';
 
 const SVGRadarChart = () => {
   const routineChartData = useSelector((state) => state.log.routineChartData);
-  const canvasSize = 400;
-  const chartSize = 300;
+  const windowSize = useWindowSize();
+  let canvasSize = windowSize.width / 2;
+  let chartSize = windowSize.width / 2 - 50;
+
+  if (windowSize.width > 600) {
+    canvasSize = 400;
+    chartSize = 300;
+  }
+
   const middleOfCanvas = (canvasSize / 2).toFixed(4);
   const numberOfScales = 4;
-
   const properties = Object.keys(routineChartData);
   const perks = properties.map((key, i, all) => {
     return {
@@ -115,6 +123,7 @@ const SVGRadarChart = () => {
       width={canvasSize}
       height={canvasSize}
       viewBox={`0 0 ${canvasSize} ${canvasSize}`}
+      style={{ maxWidth: '100%' }}
     >
       <g transform={`translate(${middleOfCanvas},${middleOfCanvas})`}>{draw}</g>
     </svg>
