@@ -6,15 +6,6 @@ const isEmptyString = (string) => {
   else return false;
 };
 
-const isEmptyArray = (arr) => {
-  if (!Array.isArray(arr) || !arr.length) return true;
-  else return false;
-};
-
-const isEmptyObject = (obj) => {
-  return Object.keys(obj).length === 0 && obj.constructor === Object;
-};
-
 let error = null;
 
 const validateRoutineLog = (log) => {
@@ -28,10 +19,8 @@ const validateRoutineLog = (log) => {
     total += log.routine[property];
   }
 
-  if (total < 24) {
-    error = 'Total hours are less than 24.';
-  } else if (total > 24) {
-    error = 'Total hours exceed 24.';
+  if (total !== 24) {
+    error = 'Total hours must equal to 24.';
   }
 
   return {

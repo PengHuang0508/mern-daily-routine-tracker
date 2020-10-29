@@ -4,30 +4,19 @@ import { createRoutineLog } from '../../redux/actions/logActions';
 // Hooks
 import { useLog } from '../../hooks/useLog';
 // MUI
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Box from '@material-ui/core/Box';
-// Helpers
+import { makeStyles } from '@material-ui/core/styles';
+// Utils
 import { capitalizeFirstLetter } from '../../utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
   createRoutineContainer: {
-    // height: '100%',
     marginTop: theme.spacing(2),
     padding: theme.spacing(3, 5),
-    background: '#f1f1f1',
+    background: '#f5f5f5',
   },
   createRoutineWrapper: {
     display: 'grid',
@@ -79,6 +68,7 @@ const CreateRoutine = () => {
     };
 
     dispatch(createRoutineLog(newRoutineLog));
+    resetLogInput();
   };
 
   return (

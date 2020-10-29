@@ -10,4 +10,5 @@ export const CLEAR_USER = 'CLEAR_USER';
 
 // Log reducer types
 export const SET_LOG = 'SET_LOG';
+export const SET_CHART_DATA = 'SET_CHART_DATA';
 export const CLEAR_LOG = 'CLEAR_LOG';
