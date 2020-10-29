@@ -1,6 +1,6 @@
 # Daily Routine Tracker
 
-Simply, easy-to-use MERN stacks web application for logging the hours of your daily routines.
+A simply and easy-to-use MERN stack web application for logging the hours of your daily routines.
 
 - Go to the live demo website
 - Register with a unique username
