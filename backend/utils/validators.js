@@ -6,9 +6,8 @@ const isEmptyString = (string) => {
   else return false;
 };
 
-let error = null;
-
 const validateRoutineLog = (log) => {
+  let error = null;
   let total = 0;
 
   if (isEmptyString(log.username)) {
