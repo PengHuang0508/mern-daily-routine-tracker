@@ -3,9 +3,9 @@
 A simply and easy-to-use MERN stack web application for logging the hours of your daily routines.
 
 - Go to the live demo website
-- Register with a unique username
+- Register with username (no password needed)
 - TA-DA! you are ready to create your first routine log
-- You can even view the data in a radar chart
+- You can view the data in a radar chart
 
 # Live Demo
 
